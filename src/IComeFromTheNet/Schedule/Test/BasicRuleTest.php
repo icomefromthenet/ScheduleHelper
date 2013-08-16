@@ -63,7 +63,33 @@ class BasicRuleTest extends \PHPUnit_Framework_TestCase
         
     }
     
-    public function testBuildDatePeriod()
+    public function testBuildDatePeriodNoOffset()
+    {
+        $format   = 'Y-m-d';
+        $start    = DateTime::createFromFormat($format,'2013-01-01');
+        $stop     = DateTime::createFromFormat($format,'2014-01-01');
+        $rule     = $this->getMockForAbstractClass('IComeFromTheNet\Schedule\Rule\BasicRule',array($start,$stop,1,false));
+        
+        $rule->expects($this->once())
+             ->method('getInterval')
+             ->will($this->returnValue(new DateInterval('P1M')));
+        
+        $period = $rule->buildDatePeriod();
+        
+        $this->assertInstanceOf('Iterator',$period);
+        
+        $values = array();
+        
+        foreach($period as $dte) {
+            $values[] = $dte->format($format);
+        }
+        
+        $this->assertEquals('2013-01-01',$values[0]);
+        $this->assertEquals('2013-12-01',$values[11]);
+    }
+    
+    
+    public function testBuildDatePeriodWithOffset()
     {
         $format   = 'Y-m-d';
         $start    = DateTime::createFromFormat($format,'2013-01-01');
@@ -77,19 +103,17 @@ class BasicRuleTest extends \PHPUnit_Framework_TestCase
         
         $period = $rule->buildDatePeriod();
         
-        $this->assertInstanceOf('DatePeriod',$period);
+        $this->assertInstanceOf('Iterator',$period);
         
         $values = array();
         
-        foreach($period as $dte) {
-            $values[] = $dte->format($format);
+        foreach($period as $index => $dte) {
+            $values[$index] = $dte->format($format);
         }
         
-        $this->assertEquals('2013-01-01',$values[0]);
+        $this->assertEquals('2013-04-01',$values[3]);
         $this->assertEquals('2013-12-01',$values[11]);
     }
-    
-    
     
     
 }

@@ -20,7 +20,8 @@ class WeeklyBuilder extends CommonBuilder
     */
     public function build()
     {
-        return new WeeklyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        $rule = new WeeklyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        return $rule->buildDatePeriod();
     }
     
     

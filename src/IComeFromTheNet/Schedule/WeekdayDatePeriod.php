@@ -85,7 +85,7 @@ class WeekdayDatePeriod implements Iterator
     public function __construct (DateTime $start, DateInterval $intval, $limit, array $daysOfWeek, $option = 0)
     {
         $this->currentDate   = clone $start;
-        $this->startDate     = $start;
+        $this->startDate     = clone $start;
         $this->interval      = $intval;
         $this->limit         = $limit;
         $this->excludeStart  = (boolean) $option;
@@ -140,7 +140,7 @@ class WeekdayDatePeriod implements Iterator
     public function rewind()
     {
         $this->counter = 0;
-        $this->currentDate = $this->startDate;
+        $this->currentDate = clone $this->startDate;
         
         if (!in_array($this->startDate->format('N'), $this->selectedDays) || $this->excludeStart) {
             $this->findNextClosestDay();

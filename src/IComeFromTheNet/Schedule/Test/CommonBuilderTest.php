@@ -10,6 +10,7 @@ use IComeFromTheNet\Schedule\Builder\MonthlyBuilder;
 use IComeFromTheNet\Schedule\Builder\QuartlyBuilder;
 use IComeFromTheNet\Schedule\Builder\WeeklyBuilder;
 use IComeFromTheNet\Schedule\Builder\YearlyBuilder;
+use IComeFromTheNet\Schedule\Builder\WeekdayBuilder;
 
 /**
   *  Unit test of the CommonBuilder
@@ -51,26 +52,15 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->offset($offset);
         $builder->skipStart();
         
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertInstanceOf('IComeFromTheNet\Schedule\Rule\BasicRule',$rule);
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals($offset,$rule->getStartingOffset());
-        $this->assertEquals(true,$rule->getStartSkiped());
+        $this->assertInstanceOf('Iterator',$iterator);
         
         # test if defaults ok        
         $builder = new BiMontlyBuilder();
         $builder->limit($stop);
         $builder->start($start);
-        $rule = $builder->build();
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals(false,$rule->getStartSkiped());
-        $this->assertEquals(1,$rule->getStartingOffset());
-        
+        $iterator = $builder->build();
     }
    
     public function testDailyBuilder()
@@ -87,25 +77,15 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->offset($offset);
         $builder->skipStart();
         
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertInstanceOf('IComeFromTheNet\Schedule\Rule\BasicRule',$rule);
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals($offset,$rule->getStartingOffset());
-        $this->assertEquals(true,$rule->getStartSkiped());
+        $this->assertInstanceOf('Iterator',$iterator);
         
         # test if defaults ok        
         $builder = new DailyBuilder();
         $builder->limit($stop);
         $builder->start($start);
-        $rule = $builder->build();
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals(false,$rule->getStartSkiped());
-        $this->assertEquals(1,$rule->getStartingOffset());
+        $iterator = $builder->build();
         
     }
     
@@ -123,25 +103,15 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->offset($offset);
         $builder->skipStart();
         
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertInstanceOf('IComeFromTheNet\Schedule\Rule\BasicRule',$rule);
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals($offset,$rule->getStartingOffset());
-        $this->assertEquals(true,$rule->getStartSkiped());
+        $this->assertInstanceOf('Iterator',$iterator);
         
         # test if defaults ok        
         $builder = new MonthlyBuilder();
         $builder->limit($stop);
         $builder->start($start);
-        $rule = $builder->build();
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals(false,$rule->getStartSkiped());
-        $this->assertEquals(1,$rule->getStartingOffset());
+        $iterator = $builder->build();
         
     }
     
@@ -159,25 +129,17 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->offset($offset);
         $builder->skipStart();
         
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertInstanceOf('IComeFromTheNet\Schedule\Rule\BasicRule',$rule);
+        $this->assertInstanceOf('Iterator',$iterator);
         
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals($offset,$rule->getStartingOffset());
-        $this->assertEquals(true,$rule->getStartSkiped());
         
         # test if defaults ok        
         $builder = new QuartlyBuilder();
         $builder->limit($stop);
         $builder->start($start);
-        $rule = $builder->build();
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals(false,$rule->getStartSkiped());
-        $this->assertEquals(1,$rule->getStartingOffset());
+        $iterator = $builder->build();
+       
         
     }
     
@@ -195,25 +157,17 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->offset($offset);
         $builder->skipStart();
         
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertInstanceOf('IComeFromTheNet\Schedule\Rule\BasicRule',$rule);
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals($offset,$rule->getStartingOffset());
-        $this->assertEquals(true,$rule->getStartSkiped());
+        $this->assertInstanceOf('Iterator',$iterator);
         
         # test if defaults ok        
         $builder = new WeeklyBuilder();
         $builder->limit($stop);
         $builder->start($start);
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals(false,$rule->getStartSkiped());
-        $this->assertEquals(1,$rule->getStartingOffset());
+       
         
     }
     
@@ -231,25 +185,43 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->offset($offset);
         $builder->skipStart();
         
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertInstanceOf('IComeFromTheNet\Schedule\Rule\BasicRule',$rule);
-        
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals($offset,$rule->getStartingOffset());
-        $this->assertEquals(true,$rule->getStartSkiped());
+        $this->assertInstanceOf('Iterator',$iterator);
         
         # test if defaults ok        
         $builder = new YearlyBuilder();
         $builder->limit($stop);
         $builder->start($start);
-        $rule = $builder->build();
+        $iterator = $builder->build();
         
-        $this->assertEquals($stop,$rule->getLimitation());
-        $this->assertEquals($start,$rule->getStartDate());
-        $this->assertEquals(false,$rule->getStartSkiped());
-        $this->assertEquals(1,$rule->getStartingOffset());
+    }
+    
+    
+    public function testWeekdayBuilder()
+    {
+        $format   = 'Y-m-d';
+        $start    = DateTime::createFromFormat($format,'2013-01-01');
+        $stop     = DateTime::createFromFormat($format,'2014-01-01');
+        $offset   = 3;
+        
+        $builder = new WeekdayBuilder();
+        
+        $builder->limit($stop);
+        $builder->start($start);
+        $builder->offset($offset);
+        $builder->skipStart();
+        
+        $iterator = $builder->build();
+        
+        $this->assertInstanceOf('Iterator',$iterator);
+     
+        
+        # test if defaults ok        
+        $builder = new WeekdayBuilder();
+        $builder->limit($stop);
+        $builder->start($start);
+        $iterator = $builder->build();
         
     }
     

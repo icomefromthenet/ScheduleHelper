@@ -4,6 +4,8 @@ namespace IComeFromTheNet\Schedule\Rule;
 use DateTime;
 use DatePeriod;
 use DateInterval;
+use LimitIterator;
+use IteratorIterator;
 use IComeFromTheNet\Schedule\Exception\ScheduleException;
 
 /**
@@ -115,9 +117,13 @@ abstract class BasicRule implements RuleInterface
         $object = null;
         
         if($this->getStartSkiped() === true) {
-            $object = new DatePeriod($this->getStartDate(),$this->getInterval(),$this->getLimitation(),DatePeriod::EXCLUDE_START_DATE);    
+            $object = new IteratorIterator(new DatePeriod($this->getStartDate(),$this->getInterval(),$this->getLimitation(),DatePeriod::EXCLUDE_START_DATE));    
         } else {
-            $object = new DatePeriod($this->getStartDate(),$this->getInterval(),$this->getLimitation());    
+            $object = new IteratorIterator(new DatePeriod($this->getStartDate(),$this->getInterval(),$this->getLimitation()));    
+        }
+        
+        if($this->getStartingOffset() > 1) {
+            $object = new LimitIterator($object,$this->getStartingOffset());
         }
         
         return $object;

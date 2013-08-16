@@ -20,7 +20,8 @@ class YearlyBuilder extends CommonBuilder
     */
     public function build()
     {
-        return new YearlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        $rule = new YearlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        return $rule->buildDatePeriod();
     }
     
     

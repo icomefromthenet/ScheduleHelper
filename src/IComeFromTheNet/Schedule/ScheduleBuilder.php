@@ -8,6 +8,7 @@ use IComeFromTheNet\Schedule\Builder\MonthlyBuilder;
 use IComeFromTheNet\Schedule\Builder\WeeklyBuilder;
 use IComeFromTheNet\Schedule\Builder\YearlyBuilder;
 use IComeFromTheNet\Schedule\Builder\QuartlyBuilder;
+use IComeFromTheNet\Schedule\Builder\WeekdayBuilder;
 
 /**
   *  Builds A Schedule
@@ -52,7 +53,7 @@ class ScheduleBuilder
     
     public function createWeekDaySchedule()
     {
-        return ;
+        return new WeekdayBuilder();
     }
     
     public function createYearlySchedule()

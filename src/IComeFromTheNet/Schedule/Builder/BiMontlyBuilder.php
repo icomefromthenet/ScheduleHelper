@@ -15,12 +15,13 @@ class BiMontlyBuilder extends CommonBuilder
      *  Builds a BiMonthly Rule
      *
      *  @access public
-     *  @return void
+     *  @return Iterator
      *
     */
     public function build()
     {
-        return new BiMonthlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        $rule = new BiMonthlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        return $rule->buildDatePeriod();
     }
     
     

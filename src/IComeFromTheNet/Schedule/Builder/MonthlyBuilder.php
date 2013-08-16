@@ -15,12 +15,13 @@ class MonthlyBuilder extends CommonBuilder
      *  Builds a Monthly Rule
      *
      *  @access public
-     *  @return IComeFromTheNet\Schedule\Rule\MonthlyRule
+     *  @return Iterator
      *
     */
     public function build()
     {
-        return new MonthlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        $rule = new MonthlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        return $rule->buildDatePeriod();
     }
     
     

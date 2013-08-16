@@ -3,7 +3,9 @@ namespace IComeFromTheNet\Schedule\Rule;
 
 use DateTime;
 use DateInterval;
+use LimitIterator;
 use IComeFromTheNet\Schedule\Exception\ScheduleException;
+use IComeFromTheNet\Schedule\WeekdayDatePeriod;
 
 /**
   *  Weekly Rule a schedule that occurs on selected weekdays
@@ -13,6 +15,25 @@ use IComeFromTheNet\Schedule\Exception\ScheduleException;
   */
 class WeekdayRule extends BasicRule implements RuleInterface
 {
+   
+   
+   /**
+     *  Returns a configured php DatePeriod
+     *
+     *  @access public
+     *  @return DatePeriod
+     *
+    */
+    public function buildDatePeriod()
+    {
+        $object = new WeekdayDatePeriod($this->getStartDate(),$this->getInterval(),$this->getLimitation(),array(1,2,3,4,5),(boolean)$this->getStartSkiped());    
+        
+        if($this->getStartingOffset() > 1) {
+            $object = new LimitIterator($object,$this->getStartingOffset());
+        }
+        
+        return $object;
+    }   
    
    
    /**
@@ -34,25 +55,7 @@ class WeekdayRule extends BasicRule implements RuleInterface
     */
     public static function calculateOffsetStart($offset, DateTime $start, $skipStart = false)
     {
-        if(is_integer($offset) === false) {
-            throw new ScheduleException('offset must be an integer');
-        }
-        
-        if($offset < 1) {
-            throw new ScheduleException('Offset must be  > 1');
-        }
-        
-        if((boolean)$skipStart == true) {
-          $offset = ($offset + 1);
-        }
-        
-        $newDate  = clone $start;
-        $interval = 1 * ($offset - 1);
-        
-        # set new date  
-        $newDate->modify("+ $interval days");
-        
-        return $newDate;
+          throw new ScheduleException('not implemented for this rule');
     }
    
    

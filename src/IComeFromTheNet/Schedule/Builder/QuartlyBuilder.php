@@ -15,12 +15,13 @@ class QuartlyBuilder extends CommonBuilder
      *  Builds a Daily Rule
      *
      *  @access public
-     *  @return void
+     *  @return iterator
      *
     */
     public function build()
     {
-        return new QuartlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        $rule = new QuartlyRule($this->startDate,$this->limitation,$this->sequenceOffset,$this->skip);
+        return $rule->buildDatePeriod();
     }
     
     

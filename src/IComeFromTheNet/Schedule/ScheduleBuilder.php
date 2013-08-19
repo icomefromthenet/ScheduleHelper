@@ -1,7 +1,7 @@
 <?php
 namespace IComeFromTheNet\Schedule;
 
-
+use IComeFromTheNet\Schedule\Exception\ScheduleException;
 use IComeFromTheNet\Schedule\Builder\BiMontlyBuilder;
 use IComeFromTheNet\Schedule\Builder\DailyBuilder;
 use IComeFromTheNet\Schedule\Builder\MonthlyBuilder;
@@ -114,6 +114,51 @@ class ScheduleBuilder
     public function fortnightly()
     {
         return new FortnightlyBuilder();
+    }
+    
+    /**
+     *  Create a builder from string
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\CommonBuilder
+     *  @param string $name the schedule type to return.
+     *
+    */
+    public function create($name)
+    {
+        $obj = null;
+        
+        switch($name) {
+           case 'fortnightly':
+            $obj = $this->fortnightly();
+           break;
+           case 'yearly':
+            $obj = $this->yearly();
+           break;
+           case 'weekday':
+            $obj = $this->weekday();
+           break;
+           case 'weekly':
+            $obj = $this->weekly();
+           break;
+           case 'monthly':
+            $obj = $this->monthly();
+           break;
+           case 'daily':
+            $obj = $this->daily();
+           break;
+           case 'quartly':
+            $obj = $this->quartly();
+           break;
+           case 'bimonthly':
+            $obj = $this->biMonthly();
+           break;
+           default:
+                throw new ScheduleException('Unknown schedule rule at '.$name);
+        }
+        
+        
+        return $obj;
     }
 }
 /* End of Class */

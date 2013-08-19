@@ -12,5 +12,7 @@ $builder = new ScheduleBuilder();
 return $builder->monthly()
         ->start($start)
         ->limit($reoccurance)
+        ->offset(4)
+        ->skipStart()
         ->build();
         

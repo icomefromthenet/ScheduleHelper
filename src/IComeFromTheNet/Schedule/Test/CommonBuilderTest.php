@@ -12,6 +12,7 @@ use IComeFromTheNet\Schedule\Builder\WeeklyBuilder;
 use IComeFromTheNet\Schedule\Builder\YearlyBuilder;
 use IComeFromTheNet\Schedule\Builder\WeekdayBuilder;
 use IComeFromTheNet\Schedule\Builder\FortnightlyBuilder;
+use IComeFromTheNet\Schedule\ScheduleBuilder;
 
 /**
   *  Unit test of the CommonBuilder
@@ -251,6 +252,31 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->start($start);
         $iterator = $builder->build();
         
+    }
+    
+    
+    public function testCreateOnScheduleBuilder()
+    {
+        $builder = new ScheduleBuilder();
+        
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\BiMontlyBuilder',$builder->create('bimonthly'));
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\DailyBuilder',$builder->create('daily'));
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\MonthlyBuilder',$builder->create('monthly'));
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\QuartlyBuilder',$builder->create('quartly'));
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\WeeklyBuilder',$builder->create('weekly'));
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\YearlyBuilder',$builder->create('yearly'));
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\WeekdayBuilder',$builder->create('weekday'));
+        $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\FortnightlyBuilder',$builder->create('fortnightly'));
+    }
+    
+    /**
+     * @expectedException IComeFromTheNet\Schedule\Exception\ScheduleException
+     * @expectedExceptionMessage Unknown schedule rule at ab
+    */
+    public function testCreateOnScheduleBuilderExceptionBadString()
+    {
+        $builder = new ScheduleBuilder();
+        $builder->create('ab');
     }
     
 }

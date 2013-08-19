@@ -5,13 +5,12 @@ use IComeFromTheNet\Schedule\ScheduleBuilder;
 
 
 $start = new DateTime();
-$reoccurance = 12;
+$reoccurance = 6;
 
 $builder = new ScheduleBuilder();
 
-return $builder->createDailySchedule()
+return $builder->yearly()
         ->start($start)
         ->limit($reoccurance)
-        ->skipStart()
         ->build();
         

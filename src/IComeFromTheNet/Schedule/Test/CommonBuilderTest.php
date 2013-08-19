@@ -11,6 +11,7 @@ use IComeFromTheNet\Schedule\Builder\QuartlyBuilder;
 use IComeFromTheNet\Schedule\Builder\WeeklyBuilder;
 use IComeFromTheNet\Schedule\Builder\YearlyBuilder;
 use IComeFromTheNet\Schedule\Builder\WeekdayBuilder;
+use IComeFromTheNet\Schedule\Builder\FortnightlyBuilder;
 
 /**
   *  Unit test of the CommonBuilder
@@ -219,6 +220,33 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         
         # test if defaults ok        
         $builder = new WeekdayBuilder();
+        $builder->limit($stop);
+        $builder->start($start);
+        $iterator = $builder->build();
+        
+    }
+    
+     public function testFortnightlyBuilder()
+    {
+        $format   = 'Y-m-d';
+        $start    = DateTime::createFromFormat($format,'2013-01-01');
+        $stop     = DateTime::createFromFormat($format,'2014-01-01');
+        $offset   = 3;
+        
+        $builder = new FortnightlyBuilder();
+        
+        $builder->limit($stop);
+        $builder->start($start);
+        $builder->offset($offset);
+        $builder->skipStart();
+        
+        $iterator = $builder->build();
+        
+        $this->assertInstanceOf('Iterator',$iterator);
+     
+        
+        # test if defaults ok        
+        $builder = new FortnightlyBuilder();
         $builder->limit($stop);
         $builder->start($start);
         $iterator = $builder->build();

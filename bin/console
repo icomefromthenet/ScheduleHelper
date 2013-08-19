@@ -1,11 +1,10 @@
 #!/usr/bin/env php
 <?php
-namespace IComeFromTheNet;
-
-use \Symfony\Component\Console\Application;
-use \Symfony\Component\Console\Input\InputArgument;
-use \Symfony\Component\Console\Input\InputInterface;
-use \Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 require __DIR__ .DIRECTORY_SEPARATOR .'..'. DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
@@ -48,5 +47,57 @@ EOF
         $output->writeln('<info>Finished Running file</info>');
         
     });
+    
+    
+$console->register('runAll')
+    ->setDefinition(array(
+        new InputArgument('path', InputArgument::OPTIONAL, 'path example folder'),
+    ))
+    ->setDescription('Runs all example files')
+    ->setHelp(<<<EOF
+The <info>%command.name%</info> command displays the example at file.
+EOF
+    )
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        
+        $examplePath = $input->getArgument('path');
+        
+        if (!is_dir(__DIR__ . DIRECTORY_SEPARATOR. $examplePath)) {
+            $output->writeln(sprintf('<error>Example File "%s" does not exist.</error>', $exampleFile));
+            return 1;
+        }
+
+        $output->writeln('<info>Loading Files</info>');
+        $output->writeln('----------------------------------------------------');
+        
+        
+        $finder = new Finder();
+        $finder->files()->name('*.php')->in(__DIR__ . DIRECTORY_SEPARATOR . $examplePath);
+
+        foreach ($finder as $file) {
+            
+            $iterator = require $file->getRealpath(); 
+        
+            if(!$iterator instanceof \Iterator) {
+                $output->writeln(sprintf('<error>Example File "%s" must return and iterator.</error>', $exampleFile));
+                return 1;
+            }
+            
+            $output->writeln(sprintf('<info>Loading File %s</info>',$file->getRealpath()));
+            
+            
+            foreach($iterator as $dte) {
+                $output->writeln($dte->format('Y-m-d'));
+            }
+            
+            $output->writeln('');
+         
+        }
+        
+        $output->writeln('');
+        $output->writeln('<info>Finished Running file</info>');
+        
+    });
+
 
 $console->run();

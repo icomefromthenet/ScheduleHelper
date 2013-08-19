@@ -9,6 +9,7 @@ use IComeFromTheNet\Schedule\Builder\WeeklyBuilder;
 use IComeFromTheNet\Schedule\Builder\YearlyBuilder;
 use IComeFromTheNet\Schedule\Builder\QuartlyBuilder;
 use IComeFromTheNet\Schedule\Builder\WeekdayBuilder;
+use IComeFromTheNet\Schedule\Builder\FortnightlyBuilder;
 
 /**
   *  Builds A Schedule
@@ -22,43 +23,97 @@ class ScheduleBuilder
      *  Create a BiMonthlySchedule Rule
      *
      *  @access public
-     *  @return 
+     *  @return IComeFromTheNet\Schedule\Builder\BiMontlyBuilder
      *
     */
-    public function createBiMonthlySchedule()
+    public function biMonthly()
     {
         return new BiMontlyBuilder();
     }
     
-    
-    public function createDailySchedule()
+    /**
+     *  Create a Daily Rule
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\DailyBuilder
+     *
+    */
+    public function daily()
     {
         return new DailyBuilder();
     }
     
-    public function createMonthlySchedule()
+    /**
+     *  Create a Monthly Rule
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\MonthlyBuilder
+     *
+    */
+    public function monthly()
     {
         return new MonthlyBuilder();
     }
     
-    public function createQuartlySchedule()
+    /**
+     *  Create a Quartly Rule
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\QuartlyBuilder
+     *
+    */
+    public function quartly()
     {
         return new QuartlyBuilder();
     }
     
-    public function createWeeklySchedule()
+    /**
+     *  Create a Weekly Rule
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\WeeklyBuilder
+     *
+    */
+    public function weekly()
     {
         return new WeeklyBuilder();
     }
     
-    public function createWeekDaySchedule()
+    /**
+     *  Create a Weekday Rule
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\WeekdayBuilder
+     *
+    */
+    public function weekday()
     {
         return new WeekdayBuilder();
     }
     
-    public function createYearlySchedule()
+    /**
+     *  Create a Yearly Rule
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\YearlyBuilder
+     *
+    */
+    public function yearly()
     {
         return new YearlyBuilder();
+    }
+    
+    
+    /**
+     *  Create a Fortnightly Rule
+     *
+     *  @access public
+     *  @return IComeFromTheNet\Schedule\Builder\FortnightlyBuilder
+     *
+    */
+    public function fortnightly()
+    {
+        return new FortnightlyBuilder();
     }
 }
 /* End of Class */

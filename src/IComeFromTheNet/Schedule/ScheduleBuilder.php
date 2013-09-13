@@ -1,6 +1,7 @@
 <?php
 namespace IComeFromTheNet\Schedule;
 
+use DateTime;
 use IComeFromTheNet\Schedule\Exception\ScheduleException;
 use IComeFromTheNet\Schedule\Builder\BiMontlyBuilder;
 use IComeFromTheNet\Schedule\Builder\DailyBuilder;
@@ -114,6 +115,51 @@ class ScheduleBuilder
     public function fortnightly()
     {
         return new FortnightlyBuilder();
+    }
+    
+    
+    /**
+     *  Return the dates of the start of the fiscal year
+     *
+     *  @access public
+     *  @return void
+     *
+    */
+    static function financialYear(DateTime $now, $startDay, $startMonth)
+    {
+        
+        if(!is_int($startDay) ||$startDay <= 0 || $startDay > 31) {
+            throw new ScheduleException('Financial year starting day must be and integer between 1 and 31');
+        }
+        
+        if(!is_int($startMonth) || $startMonth <= 0 || $startMonth > 12 ) {
+            throw new ScheduleException('Financial year starting month must be and integer between 1 and 12');
+        }
+        
+        # assume fiscal year is in same year as now date
+        $fiscalYear = (integer) $now->format('Y');
+        
+        # build range of fiscal year start and end
+        $fiscalYearStart = new DateTime();
+        $fiscalYearStart->setTime(0,0,0);
+        $fiscalYearStart->setDate($fiscalYear,$startMonth,$startDay);
+    
+        $fiscalYearEnd = clone $fiscalYearStart;
+        $fiscalYearEnd->modify('+ 1 year');
+        $fiscalYearEnd->modify('- 1 day');
+        
+        # range test using now date
+        # if now on right (before) shift the fiscal year to the right by year
+        # if now on left (after) shift the fishcal year to the left by year
+        if($now < $fiscalYearStart){
+            $fiscalYearStart->modify('- 1 year');
+            $fiscalYearEnd->modify('- 1 year');
+        } elseif ($now > $fiscalYearEnd) {
+            $fiscalYearStart->modify('+ 1 year');
+            $fiscalYearEnd->modify('+ 1 year');
+        }
+ 
+        return array($fiscalYearStart,$fiscalYearEnd);        
     }
     
     /**

@@ -267,6 +267,7 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\YearlyBuilder',$builder->create('yearly'));
         $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\WeekdayBuilder',$builder->create('weekday'));
         $this->assertInstanceOf('IComeFromTheNet\Schedule\Builder\FortnightlyBuilder',$builder->create('fortnightly'));
+        
     }
     
     /**
@@ -278,6 +279,78 @@ class CommonBuilderTest extends \PHPUnit_Framework_TestCase
         $builder = new ScheduleBuilder();
         $builder->create('ab');
     }
+    
+     /**
+     * @expectedException IComeFromTheNet\Schedule\Exception\ScheduleException
+     * @expectedExceptionMessage Financial year starting day must be and integer between 1 and 31
+    */
+    public function testFiscalYearExceptionDayOutofRange()
+    {
+        $now    = new DateTime('2012-01-02');
+        $struct = ScheduleBuilder::financialYear($now,32,6);
+    }
+    
+    /**
+     * @expectedException IComeFromTheNet\Schedule\Exception\ScheduleException
+     * @expectedExceptionMessage Financial year starting day must be and integer between 1 and 31
+    */
+    public function testFiscalYearExceptionDayNotInit()
+    {
+        $now    = new DateTime('2012-01-02');
+        $struct = ScheduleBuilder::financialYear($now,'a',6);
+    }
+    
+    /**
+     * @expectedException IComeFromTheNet\Schedule\Exception\ScheduleException
+     * @expectedExceptionMessage Financial year starting month must be and integer between 1 and 12
+    */
+    public function testFiscalYearExceptionMonthNotInit()
+    {
+        $now    = new DateTime('2012-01-02');
+        $struct = ScheduleBuilder::financialYear($now,1,'a');
+    }
+    
+    /**
+     * @expectedException IComeFromTheNet\Schedule\Exception\ScheduleException
+     * @expectedExceptionMessage Financial year starting month must be and integer between 1 and 12
+    */
+    public function testFiscalYearExceptionMonthOutOfRange()
+    {
+        $now    = new DateTime('2012-01-02');
+        $struct = ScheduleBuilder::financialYear($now,1,0);
+    }
+    
+    public function testFiscalYearScheduleBuilder()
+    {
+        
+        $now    = new DateTime('2012-01-02');
+        $struct = ScheduleBuilder::financialYear($now,1,6);
+        
+        $this->assertEquals('2011-06-01',$struct[0]->format('Y-m-d'));
+        $this->assertEquals('2012-05-31',$struct[1]->format('Y-m-d'));
+        
+        # test with now being start of fiscal year
+        $now    = new DateTime('2011-06-01');
+        $struct = ScheduleBuilder::financialYear($now,1,6);
+        
+        $this->assertEquals('2011-06-01',$struct[0]->format('Y-m-d'));
+        $this->assertEquals('2012-05-31',$struct[1]->format('Y-m-d'));
+        
+        # test with now being end of fiscal year
+        $now    = new DateTime('2012-05-31');
+        $struct = ScheduleBuilder::financialYear($now,1,6);
+        
+        $this->assertEquals('2011-06-01',$struct[0]->format('Y-m-d'));
+        $this->assertEquals('2012-05-31',$struct[1]->format('Y-m-d'));
+        
+        # test with future date
+        $now    = new DateTime('2030-07-31');
+        $struct = ScheduleBuilder::financialYear($now,1,6);
+        
+        $this->assertEquals('2030-06-01',$struct[0]->format('Y-m-d'));
+        $this->assertEquals('2031-05-31',$struct[1]->format('Y-m-d'));
+    }
+    
     
 }
 /* End of Class */

@@ -15,7 +15,7 @@ class YearlyBuilder extends CommonBuilder
      *  Builds a Yearly Rule
      *
      *  @access public
-     *  @return void
+     *  @return Iterator
      *
     */
     public function build()
